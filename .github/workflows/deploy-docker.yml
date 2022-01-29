@@ -42,7 +42,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: main
-          
+      
+      - name: Repair Docker Image (see https://github.com/facebook/duckling/issues/671)
+        run:  sed -i 's/  apt-get install -qq -y libpcre3 libpcre3-dev build-essential --fix-missing --no-install-recommends \&\& \\/  apt-get install -qq -y libpcre3 libpcre3-dev build-essential pkg-config --fix-missing --no-install-recommends \&\& \\/g' Dockerfile
+      
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
